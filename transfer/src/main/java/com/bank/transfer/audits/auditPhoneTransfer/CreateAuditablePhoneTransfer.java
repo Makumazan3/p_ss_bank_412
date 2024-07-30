@@ -1,4 +1,4 @@
-package com.bank.transfer.utils.auditPhoneTransfer;
+package com.bank.transfer.audits.auditPhoneTransfer;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD,ElementType.TYPE})
-public @interface AuditablePhoneTransfer {
-    AspectActionTypePhoneTransfer auditActionType();
+public @interface CreateAuditablePhoneTransfer {
+
 }

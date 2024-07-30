@@ -1,7 +1,7 @@
 package com.bank.transfer.controllers;
 
 import com.bank.transfer.dto.AuditDto;
-import com.bank.transfer.services.audit.AuditService;
+import com.bank.transfer.services.auditService.AuditService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,6 @@ public class AuditRestController {
     /**
      * Метод, предоставляющий информацию
      * о всех записях Audit из БД.
-     *
      * @return возвращает информацию
      * о всех записях Audit из БД в формате DTO.
      **/
@@ -41,7 +40,6 @@ public class AuditRestController {
     /**
      * Метод, предоставляющий информацию
      * об определённой записи Audit из БД по id.
-     *
      * @return возвращает информацию
      * о записи Audit из БД по id в формате DTO.
      **/

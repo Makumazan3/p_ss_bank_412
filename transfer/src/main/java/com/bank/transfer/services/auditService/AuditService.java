@@ -1,4 +1,4 @@
-package com.bank.transfer.services.audit;
+package com.bank.transfer.services.auditService;
 
 import com.bank.transfer.dto.AuditDto;
 import java.util.List;

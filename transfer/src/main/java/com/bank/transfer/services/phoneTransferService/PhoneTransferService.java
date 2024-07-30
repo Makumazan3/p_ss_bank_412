@@ -1,4 +1,4 @@
-package com.bank.transfer.services.phoneTransfer;
+package com.bank.transfer.services.phoneTransferService;
 
 import com.bank.transfer.dto.transfersDto.PhoneTransferDto;
 import java.util.List;

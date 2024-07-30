@@ -1,7 +1,7 @@
 package com.bank.transfer.controllers;
 
 import com.bank.transfer.dto.transfersDto.PhoneTransferDto;
-import com.bank.transfer.services.phoneTransfer.PhoneTransferServiceImpl;
+import com.bank.transfer.services.phoneTransferService.PhoneTransferServiceImpl;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

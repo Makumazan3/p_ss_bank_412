@@ -1,7 +1,7 @@
 package com.bank.transfer.controllers;
 
 import com.bank.transfer.dto.transfersDto.AccountTransferDto;
-import com.bank.transfer.services.accountTransfer.AccountTransferService;
+import com.bank.transfer.services.accountTransferService.AccountTransferService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,6 @@ public class AccountTransferRestController {
     /**
      * Метод, предоставляющий информацию
      * о всех записях AccountTransfer из БД.
-     *
      * @return возвращает информацию
      * о всех записях AccountTransfer из БД в формате DTO.
      **/
@@ -48,7 +47,6 @@ public class AccountTransferRestController {
     /**
      * Метод, предоставляющий информацию
      * об определённой записи AccountTransfer из БД по id.
-     *
      * @return возвращает информацию
      * о записи AccountTransfer из БД по id в формате DTO.
      **/
@@ -62,7 +60,6 @@ public class AccountTransferRestController {
     /**
      * Метод, создающий новую запись
      * о AccountTransfer в БД.
-     *
      * @param accountTransferDto - это объект DTO.
      **/
 
@@ -75,7 +72,6 @@ public class AccountTransferRestController {
     /**
      * Метод, редактирующий существующую запись
      * о AccountTransfer в БД.
-     *
      * @param accountTransferDto - это объект DTO.
      **/
 
@@ -88,7 +84,6 @@ public class AccountTransferRestController {
     /**
      * Метод, удаляющий запись
      * о AccountTransfer в БД.
-     *
      * @param id - это поиск id AccountTransfer.
      **/
 

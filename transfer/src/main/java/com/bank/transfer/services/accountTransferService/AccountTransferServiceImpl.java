@@ -1,10 +1,10 @@
-package com.bank.transfer.services.accountTransfer;
+package com.bank.transfer.services.accountTransferService;
 
 import com.bank.transfer.dto.transfersDto.AccountTransferDto;
 import com.bank.transfer.mappers.AccountTransferMapper;
 import com.bank.transfer.repositories.AccountTransferRepository;
-import com.bank.transfer.utils.auditAccountTransfer.AspectActionTypeAccountTransfer;
-import com.bank.transfer.utils.auditAccountTransfer.AuditableAccountTransfer;
+import com.bank.transfer.audits.auditAccountTransfer.CreateAuditableAccountTransfer;
+import com.bank.transfer.audits.auditAccountTransfer.UpdateAuditableAccountTransfer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +43,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     @Override
     @Transactional
-    @AuditableAccountTransfer(auditActionType = AspectActionTypeAccountTransfer.CREATE_ACCOUNT)
+    @CreateAuditableAccountTransfer
     public void createAccountTransfer(AccountTransferDto accountTransferDto) {
         logger.info("Старт сервис-метода createAccountTransfer");
         accountTransferRepository.save(accountTransferMapper.toEntity(accountTransferDto));
@@ -51,7 +51,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     @Override
     @Transactional
-    @AuditableAccountTransfer(auditActionType = AspectActionTypeAccountTransfer.UPDATE_ACCOUNT)
+    @UpdateAuditableAccountTransfer
     public void updateAccountTransfer(AccountTransferDto accountTransferDto) {
         logger.info("Старт сервис-метода updateAccountTransfer");
         accountTransferRepository.save(accountTransferMapper.toEntity(accountTransferDto));
@@ -59,7 +59,6 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
     @Override
     @Transactional
-    @AuditableAccountTransfer(auditActionType = AspectActionTypeAccountTransfer.DELETE_ACCOUNT)
     public void deleteAccountTransferById(long accountTransferId) {
         logger.info("Старт сервис-метода deleteAccountTransferById");
         accountTransferRepository.deleteById(accountTransferId);

@@ -1,14 +1,16 @@
-package com.bank.transfer.services.cardTransfer;
+package com.bank.transfer.services.cardTransferService;
 
+import com.bank.transfer.audits.auditCardTransfer.UpdateAuditableCardTransfer;
 import com.bank.transfer.dto.transfersDto.CardTransferDto;
 import com.bank.transfer.mappers.CardTransferMapper;
 import com.bank.transfer.repositories.CardTransferRepository;
-import com.bank.transfer.utils.auditCardTransfer.AspectActionTypeCardTransfer;
-import com.bank.transfer.utils.auditCardTransfer.AuditableCardTransfer;
+import com.bank.transfer.audits.auditCardTransfer.CreateAuditableCardTransfer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class CardTransferServiceImpl implements CardTransferService {
 
     private final CardTransferRepository cardTransferRepository;
@@ -39,14 +42,16 @@ public class CardTransferServiceImpl implements CardTransferService {
     }
 
     @Override
-    @AuditableCardTransfer(auditActionType = AspectActionTypeCardTransfer.CREATE_CARD)
+    @Transactional
+    @CreateAuditableCardTransfer
     public void createCardTransfer(CardTransferDto cardTransferDto) {
         logger.info("Старт сервис-метода createCardTransfer");
         cardTransferRepository.save(cardTransferMapper.toEntity(cardTransferDto));
     }
 
     @Override
-    @AuditableCardTransfer(auditActionType = AspectActionTypeCardTransfer.UPDATE_CARD)
+    @Transactional
+    @UpdateAuditableCardTransfer
     public void updateCardTransfer(CardTransferDto cardTransferDto) {
         logger.info("Старт сервис-метода updateCardTransfer");
         cardTransferRepository.save(cardTransferMapper.toEntity(cardTransferDto));
@@ -54,7 +59,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
 
     @Override
-    @AuditableCardTransfer(auditActionType = AspectActionTypeCardTransfer.DELETE_CARD)
+    @Transactional
     public void deleteCardTransferById(long cardTransferId) {
         logger.info("Старт сервис-метода updateCardTransferById");
         cardTransferRepository.deleteById(cardTransferId);

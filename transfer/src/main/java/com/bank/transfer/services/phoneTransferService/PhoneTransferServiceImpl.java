@@ -1,14 +1,16 @@
-package com.bank.transfer.services.phoneTransfer;
+package com.bank.transfer.services.phoneTransferService;
 
+import com.bank.transfer.audits.auditPhoneTransfer.UpdateAuditablePhoneTransfer;
 import com.bank.transfer.dto.transfersDto.PhoneTransferDto;
 import com.bank.transfer.mappers.PhoneTransferMapper;
 import com.bank.transfer.repositories.PhoneTransferRepository;
-import com.bank.transfer.utils.auditPhoneTransfer.AspectActionTypePhoneTransfer;
-import com.bank.transfer.utils.auditPhoneTransfer.AuditablePhoneTransfer;
+import com.bank.transfer.audits.auditPhoneTransfer.CreateAuditablePhoneTransfer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional (readOnly = true)
 public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     private final PhoneTransferRepository phoneTransferRepository;
@@ -40,21 +43,23 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
 
     @Override
-    @AuditablePhoneTransfer(auditActionType = AspectActionTypePhoneTransfer.CREATE_PHONE)
+    @Transactional
+    @CreateAuditablePhoneTransfer
     public void createPhoneTransfer(PhoneTransferDto phoneTransferDto) {
         logger.info("Старт сервис-метода createPhoneTransfer");
         phoneTransferRepository.save(phoneTransferMapper.toEntity(phoneTransferDto));
     }
 
     @Override
-    @AuditablePhoneTransfer(auditActionType = AspectActionTypePhoneTransfer.UPDATE_PHONE)
+    @Transactional
+    @UpdateAuditablePhoneTransfer
     public void updatePhoneTransfer(PhoneTransferDto phoneTransferDto) {
         logger.info("Старт сервис-метода updatePhoneTransfer");
         phoneTransferRepository.save(phoneTransferMapper.toEntity(phoneTransferDto));
     }
 
     @Override
-    @AuditablePhoneTransfer(auditActionType = AspectActionTypePhoneTransfer.DELETE_PHONE)
+    @Transactional
     public void deletePhoneTransferById(long phoneTransferId) {
         logger.info("Старт сервис-метода deletePhoneTransferById");
         phoneTransferRepository.deleteById(phoneTransferId);
