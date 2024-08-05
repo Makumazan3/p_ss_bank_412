@@ -15,7 +15,7 @@ management:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: user
+    username: postgres
     password: password
   liquibase:
     default-schema: transfer
@@ -24,3 +24,7 @@ spring:
     drop-first: false
   application:
     name: transfer-app
+    eureka:
+      client:
+        service-url:
+          defaultZone: http://localhost:8761/eureka
