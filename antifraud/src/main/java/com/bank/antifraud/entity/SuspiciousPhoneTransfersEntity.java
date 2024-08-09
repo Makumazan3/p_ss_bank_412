@@ -1,12 +1,20 @@
 package com.bank.antifraud.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table (name = "suspicious_phone_transfers", schema = "anti_fraud")
+@Table(name = "suspicious_phone_transfers", schema = "anti_fraud")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,7 +22,7 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SuspiciousPhoneTransfersEntity {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
 
@@ -32,6 +40,4 @@ public class SuspiciousPhoneTransfersEntity {
 
     @Column(name = "suspicious_reason", nullable = false)
     String suspiciousReason;
-
-
 }

@@ -13,5 +13,4 @@ import java.time.LocalDateTime;
         private int statusCode;
         private String error;
         private LocalDateTime timestamp;
-
     }

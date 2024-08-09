@@ -1,10 +1,7 @@
-
 package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.SuspiciousCardTransfersDto;
-
 import java.util.List;
-
 
 public interface SuspiciousCardTransfersService {
     List<SuspiciousCardTransfersDto> getAllSuspiciousCardTransfers();

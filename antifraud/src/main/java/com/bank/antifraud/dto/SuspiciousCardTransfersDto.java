@@ -4,9 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-
 import java.io.Serializable;
-
 
 @Getter
 @Setter
@@ -18,5 +16,4 @@ public class SuspiciousCardTransfersDto implements Serializable {
     boolean isSuspicious;
     String blockedReason;
     String suspiciousReason;
-
 }

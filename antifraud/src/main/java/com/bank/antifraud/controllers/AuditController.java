@@ -1,6 +1,5 @@
 package com.bank.antifraud.controllers;
 
-
 import com.bank.antifraud.dto.AuditDto;
 import com.bank.antifraud.service.AuditService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,10 +47,9 @@ public class AuditController {
             content = {@Content(schema = @Schema(implementation = AuditDto.class),
                     mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<AuditDto> addAudit(@Valid @RequestBody AuditDto auditDto) {
-        log.info("Request received to create a new entity: AuditEntity");
+        log.info("Получен запрос на создание нового объекта: AuditEntity");
         AuditDto createdAuditDto = auditService.createAudit(auditDto);
-        log.info("Entity \"Audit\" created successfully with ID = {}", createdAuditDto.getId());
-
+        log.info("Объект Audit успешно создан с ID = {}", createdAuditDto.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAuditDto);
     }
 }

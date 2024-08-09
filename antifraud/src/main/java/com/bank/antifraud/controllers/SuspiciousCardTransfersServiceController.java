@@ -1,6 +1,5 @@
 package com.bank.antifraud.controllers;
 
-
 import com.bank.antifraud.dto.SuspiciousCardTransfersDto;
 import com.bank.antifraud.service.SuspiciousCardTransfersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
@@ -29,108 +34,95 @@ import java.util.List;
 public class SuspiciousCardTransfersServiceController {
     private final SuspiciousCardTransfersService suspiciousCardTransfersService;
     @GetMapping("/all")
-    @Operation(summary = "Information about suspicious card transfers")
-    @ApiResponse(responseCode = "200", description = "Suspicious card transfers got successfully",
+    @Operation(summary = "Информация о подозрительных переводах по картам")
+    @ApiResponse(responseCode = "200", description = "Подозрительные переводы по картам успешно получены",
             content = {@Content(schema = @Schema(implementation = SuspiciousCardTransfersDto.class),
                     mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<List<SuspiciousCardTransfersDto>> getAllSuspiciousCardTransfers() {
-        log.info("Request received to get all suspicious transfers by card number");
+        log.info("Получен запрос на получение всех подозрительных переводов по номеру карты");
         List<SuspiciousCardTransfersDto> transfers =
                 suspiciousCardTransfersService.getAllSuspiciousCardTransfers();
-        log.info("Returning {} suspicious transfers by card number.", transfers.size());
-
+        log.info("Возвращено {} подозрительных переводов по номеру карты", transfers.size());
         return ResponseEntity.ok(transfers);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Information about suspicious card transfer by ID")
+    @Operation(summary = "Информация о подозрительном переводе по карте по ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious card transfer got successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по карте успешно получен",
                     content = {@Content(schema = @Schema(implementation = SuspiciousCardTransfersDto.class),
                             mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "400", description = "Incorrect request",
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious card transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по карте не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     public ResponseEntity<SuspiciousCardTransfersDto> getSuspiciousCardTransfersById(
             @Valid @PathVariable("id") Long id) {
-        log.info("Request received to get by id suspicious transfers by card number");
+        log.info("Получен запрос на получение подозрительных переводов по номеру карты по ID");
         SuspiciousCardTransfersDto transfer = suspiciousCardTransfersService.getSuspiciousCardTransfersById(id);
-        log.info("The SuspiciousCardTransfersDto has gotten successfully with ID = {}", id);
-
+        log.info("TSuspiciousCardTransfersDto успешно получен с ID = {}", id);
         return ResponseEntity.ok(transfer);
     }
 
     @PostMapping ("/add")
-    @Operation(summary = "Add new suspicious card transfer")
-    @ApiResponse(responseCode = "201", description = "Entity \"SuspiciousCardTransfers\" created successfully",
+    @Operation(summary = "Добавить новый подозрительный перевод по карте")
+    @ApiResponse(responseCode = "201", description = "Объект \"SuspiciousCardTransfers\" успешно создан",
             content = {@Content(schema = @Schema(implementation = SuspiciousCardTransfersDto.class),
                     mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<SuspiciousCardTransfersDto> addSuspiciousCardTransfers(
             @Valid @RequestBody SuspiciousCardTransfersDto suspiciousCardTransfersDto) {
-        log.info("Request received to create a new entity: SuspiciousCardTransfers");
+        log.info("Получен запрос на создание нового объекта: SuspiciousCardTransfers");
         SuspiciousCardTransfersDto createdSuspiciousCardTransfersDto =
                 suspiciousCardTransfersService.addSuspiciousCardTransfers(suspiciousCardTransfersDto);
-        log.info("Entity \"SuspiciousCardTransfers\" created successfully with ID = {}",
+        log.info("Объект \"SuspiciousCardTransfers\" успешно создан с ID = {}",
                 createdSuspiciousCardTransfersDto.getId());
-
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSuspiciousCardTransfersDto);
     }
 
     @PutMapping("/update/{id}")
-    @Operation(summary = "Update data suspicious card transfer")
+    @Operation(summary = "Обновить данные подозрительного перевода по карте")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious card transfer updated successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по карте успешно обновлен",
                     content = {@Content(schema = @Schema(implementation = SuspiciousCardTransfersDto.class),
                             mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious card transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по карте не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     public ResponseEntity<SuspiciousCardTransfersDto> updateSuspiciousCardTransfer(
             @PathVariable Long id,
             @Valid @RequestBody SuspiciousCardTransfersDto suspiciousCardTransfersDto) {
-
-        log.info("Request received to update entity: SuspiciousCardTransfers with ID = {}", id);
-
+        log.info("Получен запрос на обновление объекта: SuspiciousCardTransfers с ID = {}", id);
         try {
-            // Обновление записи по идентификатору и данным
             SuspiciousCardTransfersDto updatedTransfer =
                     suspiciousCardTransfersService.updateSuspiciousCardTransfers(id, suspiciousCardTransfersDto);
-
-            // Возвращаем обновленную запись
-            log.info("Entity \"SuspiciousCardTransfer\" updated successfully with ID = {}", updatedTransfer.getId());
+            log.info("Объект \"SuspiciousCardTransfer\" успешно обновлен с ID = {}", updatedTransfer.getId());
             return ResponseEntity.ok(updatedTransfer);
         } catch (EntityNotFoundException e) {
             // Если запись не найдена
-            log.warn("SuspiciousCardTransfer with ID = {} not found", id);
+            log.warn("SuspiciousCardTransfer с ID = {} не найден", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
-            // Общая обработка ошибок
-            log.error("Error updating SuspiciousCardTransfer with ID = {}: {}", id, e.getMessage());
+            log.error("Ошибка при обновлении SuspiciousCardTransfer с ID = {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
-
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete suspicious card transfer by ID")
+    @Operation(summary = "Удалить подозрительный перевод по карте по ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious card transfer deleted successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по карте успешно удалён",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "400", description = "Incorrect request",
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious card transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по карте не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     public ResponseEntity<String> removeSuspiciousCardTransfer(@Valid @PathVariable("id") Long id) {
-        log.info("Request received to delete a new entity: SuspiciousCardTransfer");
+        log.info("Получен запрос на удаление нового объекта: SuspiciousCardTransfer");
         suspiciousCardTransfersService.deleteSuspiciousCardTransfersById(id);
-        log.info("Entity \"SuspiciousCardTransfer\" deleted successfully with ID = {}", id);
-
-        return ResponseEntity.ok(String.format("SuspiciousCardTransfer with ID = %d was delete!", id));
+        log.info("Объект \"SuspiciousCardTransfer\" успешно удалён с ID = {}", id);
+        return ResponseEntity.ok(String.format("SuspiciousCardTransfer с ID = %d был удалён!", id));
     }
-
 }
 

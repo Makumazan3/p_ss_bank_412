@@ -1,6 +1,5 @@
 package com.bank.antifraud.controllers;
 
-
 import com.bank.antifraud.dto.SuspiciousAccountTransfersDto;
 import com.bank.antifraud.service.SuspiciousAccountTransfersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
@@ -29,108 +34,97 @@ import java.util.List;
 public class SuspiciousAccountTransfersServiceController {
     private final SuspiciousAccountTransfersService suspiciousAccountTransfersService;
     @GetMapping("/all")
-    @Operation(summary = "Information about suspicious account transfers")
+    @Operation(summary = "Информация о подозрительных переводах по счёту")
     @ApiResponse(responseCode = "200", description = "Suspicious account transfers got successfully",
             content = {@Content(schema = @Schema(implementation = SuspiciousAccountTransfersDto.class),
                     mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<List<SuspiciousAccountTransfersDto>> getAllSuspiciousAccountTransfers() {
-        log.info("Request received to get all suspicious transfers by account number");
+        log.info("Получен запрос на получение всех подозрительных переводов по номеру счета");
         List<SuspiciousAccountTransfersDto> transfers =
                 suspiciousAccountTransfersService.getAllSuspiciousAccountTransfers();
-        log.info("Returning {} suspicious transfers by account number.", transfers.size());
-
+        log.info("Возвращено {} подозрительных переводов по номеру счета", transfers.size());
         return ResponseEntity.ok(transfers);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Information about suspicious account transfer by ID")
+    @Operation(summary = "Информация о подозрительном переводе по счёту по ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious account transfer got successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по счёту успешно получен",
                     content = {@Content(schema = @Schema(implementation = SuspiciousAccountTransfersDto.class),
                             mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "400", description = "Incorrect request",
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious account transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по счету не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     public ResponseEntity<SuspiciousAccountTransfersDto> getSuspiciousAccountTransfersById(
             @Valid @PathVariable("id") Long id) {
-        log.info("Request received to get by id suspicious transfers by account number");
+        log.info("Получен запрос на получение подозрительных переводов по номеру счета по ID");
         SuspiciousAccountTransfersDto transfer = suspiciousAccountTransfersService.getSuspiciousAccountTransfersById(id);
-        log.info("The SuspiciousAccountTransferDTO has gotten successfully with ID = {}", id);
-
+        log.info("SuspiciousAccountTransferDTO успешно получен с ID = {} ", id);
         return ResponseEntity.ok(transfer);
     }
 
-    @PostMapping ("/add")
-    @Operation(summary = "Add new suspicious account transfer")
-    @ApiResponse(responseCode = "201", description = "Entity \"SuspiciousAccountTransfer\" created successfully",
+    @PostMapping("/add")
+    @Operation(summary = "Добавить новый подозрительный перевод по счёту")
+    @ApiResponse(responseCode = "201", description = "Объект \"SuspiciousAccountTransfer\" успешно создан",
             content = {@Content(schema = @Schema(implementation = SuspiciousAccountTransfersDto.class),
                     mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<SuspiciousAccountTransfersDto> addSuspiciousAccountTransfers(
             @Valid @RequestBody SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
-        log.info("Request received to create a new entity: SuspiciousAccountTransfer");
+        log.info("Получен запрос на создание нового объекта: SuspiciousAccountTransfer");
         SuspiciousAccountTransfersDto createdSuspiciousAccountTransfersDto =
                 suspiciousAccountTransfersService.addSuspiciousAccountTransfers(suspiciousAccountTransfersDto);
-        log.info("Entity \"SuspiciousAccountTransfer\" created successfully with ID = {}",
+        log.info("Объект \"SuspiciousAccountTransfer\" успешно создан с ID = {}",
                 createdSuspiciousAccountTransfersDto.getId());
-
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSuspiciousAccountTransfersDto);
     }
 
     @PutMapping("/update/{id}")
-    @Operation(summary = "Update data suspicious account transfer")
+    @Operation(summary = "Обновить данные подозрительного перевода по счёту")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious account transfer updated successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по счёту успешно обновлен",
                     content = {@Content(schema = @Schema(implementation = SuspiciousAccountTransfersDto.class),
                             mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious account transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по счёту не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     public ResponseEntity<SuspiciousAccountTransfersDto> updateSuspiciousAccountTransfer(
             @PathVariable Long id,
             @Valid @RequestBody SuspiciousAccountTransfersDto suspiciousAccountTransfersDto) {
 
-        log.info("Request received to update entity: SuspiciousAccountTransfers with ID = {}", id);
+        log.info("Получен запрос на обновление объекта: SuspiciousAccountTransfers с ID = {}", id);
 
         try {
-            // Обновление записи по идентификатору и данным
             SuspiciousAccountTransfersDto updatedTransfer =
                     suspiciousAccountTransfersService.updateSuspiciousAccountTransfers(id, suspiciousAccountTransfersDto);
-
-            // Возвращаем обновленную запись
-            log.info("Entity \"SuspiciousAccountTransfer\" updated successfully with ID = {}", updatedTransfer.getId());
+            log.info("Объект \"SuspiciousAccountTransfer\" успешно обновлен с ID = {}", updatedTransfer.getId());
             return ResponseEntity.ok(updatedTransfer);
         } catch (EntityNotFoundException e) {
-            // Если запись не найдена
-            log.warn("SuspiciousAccountTransfer with ID = {} not found", id);
+            log.warn("SuspiciousAccountTransfer с ID = {} не найден", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (Exception e) {
-            // Общая обработка ошибок
-            log.error("Error updating SuspiciousAccountTransfer with ID = {}: {}", id, e.getMessage());
+            log.error("Ошибка при обновлении SuspiciousAccountTransfer с ID = {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
-
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete suspicious account transfer by ID")
+    @Operation(summary = "Удалить подозрительный перевод по ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Suspicious account transfer deleted successfully",
+            @ApiResponse(responseCode = "200", description = "Подозрительный перевод по счёту успешно удалён",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "400", description = "Incorrect request",
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "404", description = "Suspicious account transfer not found",
+            @ApiResponse(responseCode = "404", description = "Подозрительный перевод по счёту не найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+
     public ResponseEntity<String> removeSuspiciousAccountTransfer(@Valid @PathVariable("id") Long id) {
-        log.info("Request received to delete a new entity: SuspiciousAccountTransfer");
+        log.info("Получен запрос на удаление объекта: SuspiciousAccountTransfer");
         suspiciousAccountTransfersService.deleteSuspiciousAccountTransfersById(id);
-        log.info("Entity \"SuspiciousAccountTransfer\" deleted successfully with ID = {}", id);
-
-        return ResponseEntity.ok(String.format("SuspiciousAccountTransfer with ID = %d was delete!", id));
+        log.info("Объект \"SuspiciousAccountTransfer\" успешно удалён с ID = {}", id);
+        return ResponseEntity.ok(String.format("SuspiciousAccountTransfer с ID = %d был удален!", id));
     }
-
 }
 

@@ -10,82 +10,70 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-
 public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfersService {
 
     private final SuspiciousCardTransfersRepository suspiciousCardTransfersRepository;
     private final SuspiciousCardTransfersMapper suspiciousCardTransfersMapper;
 
-
-
-
     @Override
     public List<SuspiciousCardTransfersDto> getAllSuspiciousCardTransfers() {
+        log.info("Получение всех подозрительных переводов по картам");
         return suspiciousCardTransfersMapper.toDtoList(suspiciousCardTransfersRepository.findAll());
     }
 
     @Override
     public SuspiciousCardTransfersDto getSuspiciousCardTransfersById(Long id) {
+        log.info("Получение подозрительного перевода по карте с ID = {}", id);
         return suspiciousCardTransfersMapper.toDto(suspiciousCardTransfersRepository.findById(id)
                 .orElseThrow(() -> {
                     final String exceptionMessage =
-                            String.format("SuspiciousCardTransfers not found with ID = %d", id);
-                    final String logMessage = String.format("The request failed. " +
-                            "NoSuchTransferException was thrown. %s", exceptionMessage);
+                            String.format("Подозрительный перевод по карте не найден с ID = %d", id);
+                    final String logMessage = String.format("Запрос не выполнен." +
+                            "Брошено исключение NoSuchTransferException. %s", exceptionMessage);
                     final NoSuchTransferException exception = new NoSuchTransferException(exceptionMessage);
                     log.warn(logMessage);
                     log.debug(logMessage, exception);
-
                     return exception;
                 }));
     }
 
     @Override
     public SuspiciousCardTransfersDto addSuspiciousCardTransfers(SuspiciousCardTransfersDto suspiciousCardTransfersDto) {
+        log.info("Добавление нового подозрительного перевода по карте");
         return suspiciousCardTransfersMapper.toDto(suspiciousCardTransfersRepository
                 .save(suspiciousCardTransfersMapper.toEntity(suspiciousCardTransfersDto)));
     }
 
-
     @Override
-
     public SuspiciousCardTransfersDto updateSuspiciousCardTransfers(Long id, SuspiciousCardTransfersDto updatedSuspiciousCardTransfersDto) {
-        // Логирование начала обновления
-        log.info("Attempting to update SuspiciousCardTransfer with ID = {}", id);
+        log.info("Попытка обновления подозрительного перевода по карте с ID = {}", id);
 
-        // Найти существующую запись по идентификатору
         SuspiciousCardTransfersEntity existingEntity = suspiciousCardTransfersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("SuspiciousCardTransfer with ID " + id + " not found"));
-
-        // Обновить поля существующей сущности на основе данных из DTO
+                .orElseThrow(() -> new EntityNotFoundException("SuspiciousCardTransfer с ID " + id + " не найден"));
         existingEntity.setCardTransferId(updatedSuspiciousCardTransfersDto.getCardTransferId());
         existingEntity.setBlocked(updatedSuspiciousCardTransfersDto.isBlocked());
         existingEntity.setSuspicious(updatedSuspiciousCardTransfersDto.isSuspicious());
         existingEntity.setBlockedReason(updatedSuspiciousCardTransfersDto.getBlockedReason());
         existingEntity.setSuspiciousReason(updatedSuspiciousCardTransfersDto.getSuspiciousReason());
 
-        // Сохранить обновленную сущность
         SuspiciousCardTransfersEntity updatedEntity = suspiciousCardTransfersRepository.save(existingEntity);
+        log.info("Подозрительный перевод по карте успешно обновлен с ID = {}", id);
 
-        // Логирование успешного обновления
-        log.info("Successfully updated SuspiciousCardTransfer with ID = {}", id);
-
-        // Вернуть обновленный DTO
         return suspiciousCardTransfersMapper.toDto(updatedEntity);
     }
 
-
     @Override
     public SuspiciousCardTransfersDto deleteSuspiciousCardTransfersById(Long id) {
+        log.info("Попытка удаления подозрительного перевода по карте с ID = {}", id);
         SuspiciousCardTransfersDto suspiciousCardTransfersDto = this.getSuspiciousCardTransfersById(id);
         suspiciousCardTransfersRepository.deleteById(id);
+        log.info("Подозрительный перевод по карте успешно удален с ID = {}", id);
         return suspiciousCardTransfersDto;
     }
 }
