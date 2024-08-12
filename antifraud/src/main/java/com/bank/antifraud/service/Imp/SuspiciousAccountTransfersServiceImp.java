@@ -50,7 +50,6 @@ public class SuspiciousAccountTransfersServiceImp implements SuspiciousAccountTr
                 .save(suspiciousAccountTransfersMapper.toEntity(suspiciousAccountTransfersDto)));
     }
 
-
     @Override
 
     public SuspiciousAccountTransfersDto updateSuspiciousAccountTransfers(Long id, SuspiciousAccountTransfersDto updatedSuspiciousAccountTransfersDto) {
