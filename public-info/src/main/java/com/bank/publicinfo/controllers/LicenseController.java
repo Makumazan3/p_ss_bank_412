@@ -25,7 +25,7 @@ public class LicenseController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<LicenseDto> create(@RequestBody LicenseDto licenseDto) {
-        LicenseDto dto = licenseService.addLicense(licenseDto);
+        final LicenseDto dto = licenseService.addLicense(licenseDto);
         return ResponseEntity.ok(dto);
     }
 

@@ -24,7 +24,7 @@ public class BranchServiceImpl implements BranchService {
     @Override
     @Transactional
     public BranchDto addBranch(BranchDto branchDto) {
-        Branch newBranch;
+        final Branch newBranch;
         try {
             newBranch = branchRepository.save(branchMapper.toEntity(branchDto));
         } catch (Exception e) {

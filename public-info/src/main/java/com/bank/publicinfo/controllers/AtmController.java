@@ -25,7 +25,7 @@ public class AtmController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<AtmDto> create(@RequestBody AtmDto atmDto) {
-        AtmDto dto = atmService.addAtm(atmDto);
+        final AtmDto dto = atmService.addAtm(atmDto);
         return ResponseEntity.ok(dto);
     }
 

@@ -1,3 +1,4 @@
+
 package com.bank.publicinfo.controllers;
 
 import com.bank.publicinfo.dto.CertificateDto;
@@ -25,7 +26,7 @@ public class CertificateController {
 
     @PostMapping("/create")
     public ResponseEntity<CertificateDto> create(@RequestBody CertificateDto certificateDto) {
-        CertificateDto dto = certificateService.addCertificate(certificateDto);
+        final CertificateDto dto = certificateService.addCertificate(certificateDto);
         return ResponseEntity.ok(dto);
     }
 

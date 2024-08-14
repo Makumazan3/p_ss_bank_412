@@ -23,7 +23,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto addCertificate(CertificateDto certificateDto) {
-        Certificate newCertificate;
+        final Certificate newCertificate;
         try {
             newCertificate = certificateRepository.save(certificateMapper.toEntity(certificateDto));
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public CertificateDto getCertificateById(Long id) {
-        Certificate referenceById = certificateRepository.getReferenceById(id);
+        final Certificate referenceById = certificateRepository.getReferenceById(id);
         return certificateMapper.toDto(referenceById);
     }
 

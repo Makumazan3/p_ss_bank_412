@@ -20,22 +20,19 @@ public class AuditAspect {
     private final AuditRepository auditRepository;
     private final ObjectMapper objectMapper;
 
-    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.add*(..))"
-            , returning = "finishResult")
+    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.add*(..))", returning = "finishResult")
     public void afterCreateMethod(Object finishResult) {
         log.info("The new audit is started to create.");
         auditOperation(finishResult, "CREATE");
     }
 
-    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.update*(..))"
-            , returning = "finishResult")
+    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.update*(..))", returning = "finishResult")
     public void afterUpdateMethod(Object finishResult) {
         log.info("The audit is started to update.");
         auditOperation(finishResult, "UPDATE");
     }
 
-    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.delete*(..))"
-            , returning = "finishResult")
+    @AfterReturning(pointcut = "execution(* com.bank.publicinfo.service.*.delete*(..))", returning = "finishResult")
     public void afterDeleteMethod(Object finishResult) {
         log.info("This audit is started to delete.");
         auditOperation(finishResult, "DELETE");
@@ -49,16 +46,16 @@ public class AuditAspect {
             }
             log.debug("Start audit for operation: {}", operationType);
 
-            String entityJson = objectMapper.writeValueAsString(finishResult);
+            final String entityJson = objectMapper.writeValueAsString(finishResult);
             log.debug("Serializable entity: {}", entityJson);
 
-            String entityType = finishResult.getClass().getSimpleName();
+            final String entityType = finishResult.getClass().getSimpleName();
             log.debug("Entity type: {}", entityType);
 
-            String createdBy = "system";
+            final String createdBy = "system";
             log.debug("Created by: {}", createdBy);
 
-            Audit auditEntity = new Audit();
+            final Audit auditEntity = new Audit();
             auditEntity.setEntityType(entityType);
             auditEntity.setOperationType(operationType);
             auditEntity.setCreatedBy(createdBy);

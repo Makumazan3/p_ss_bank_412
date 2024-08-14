@@ -33,22 +33,20 @@ public class AuditController {
 
     @PostMapping("/create")
     @Operation(summary = "Create new audit.")
-    @ApiResponse(responseCode = "201"
-            , description = "The entity was created successfully!"
-            , content = {@Content(schema = @Schema(implementation = AuditDto.class)
-            , mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "201", description = "The entity was created successfully!",
+            content = {@Content(schema = @Schema(implementation = AuditDto.class),
+                    mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<AuditDto> create(@Valid @RequestBody AuditDto auditDto) {
         log.info("New entity Audit is request to create.");
-        AuditDto dto = auditService.addAudit(auditDto);
+        final AuditDto dto = auditService.addAudit(auditDto);
         log.info("The entity Audit was created successfully with ID = {}", dto.getId());
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/showAllAudit")
     @Operation(summary = "Show all audits.")
-    @ApiResponse(responseCode = "200"
-            , description = "All audits get successfully!"
-            , content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "200", description = "All audits get successfully!",
+            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<List<AuditDto>> showAll() {
         log.info("This method is started to show all entities.");
         return new ResponseEntity<>(auditService.getAllAudit(), HttpStatus.OK);
@@ -56,10 +54,9 @@ public class AuditController {
 
     @GetMapping("/showOne/{id}")
     @Operation(summary = "Get one audit by ID.")
-    @ApiResponse(responseCode = "200"
-            , description = "Audit is got successfully."
-            , content = {@Content(schema = @Schema(implementation = AuditDto.class)
-            , mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "200", description = "Audit is got successfully.",
+            content = {@Content(schema = @Schema(implementation = AuditDto.class),
+                    mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<AuditDto> getOne(@PathVariable(name = "id") Long id) {
         log.info("This method is started to show one entity by ID = {}.", id);
         return new ResponseEntity<>(auditService.getAuditById(id), HttpStatus.OK);
@@ -67,9 +64,8 @@ public class AuditController {
 
     @PutMapping("/update")
     @Operation(summary = "Update audit.")
-    @ApiResponse(responseCode = "200"
-            , description = "Audit update successfully."
-            , content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    @ApiResponse(responseCode = "200", description = "Audit update successfully.",
+            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     public ResponseEntity<HttpStatus> update(@Valid @RequestBody AuditDto auditDto) {
         log.info("Audit will be update");
         auditService.updateAudit(auditDto);
@@ -79,8 +75,7 @@ public class AuditController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete audit by ID.")
-    @ApiResponse(responseCode = "204"
-            , description = "Audit delete successfully!")
+    @ApiResponse(responseCode = "204", description = "Audit delete successfully!")
     public ResponseEntity<AuditDto> delete(@PathVariable(name = "id") Long id) {
         log.info("Request to delete audit with ID = {}", id);
         auditService.deleteAudit(id);

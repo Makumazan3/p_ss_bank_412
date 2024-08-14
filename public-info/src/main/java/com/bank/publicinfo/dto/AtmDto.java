@@ -7,7 +7,7 @@ import java.time.OffsetTime;
 @Data
 public class AtmDto {
 
-    private Long Id;
+    private Long id;
     private String address;
     private OffsetTime startOfWork;
     private OffsetTime endOfWork;

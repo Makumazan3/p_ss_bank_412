@@ -23,7 +23,7 @@ public class LicenseServiceImpl implements LicenseService {
     @Override
     @Transactional
     public LicenseDto addLicense(LicenseDto licenseDto) {
-        License newLicense;
+        final License newLicense;
         try {
             newLicense = licenseRepository.save(licenseMapper.toEntity(licenseDto));
         } catch (Exception e) {

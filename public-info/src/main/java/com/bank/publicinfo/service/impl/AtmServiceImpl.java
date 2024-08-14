@@ -23,7 +23,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     @Transactional
     public AtmDto addAtm(AtmDto atmDto) {
-        Atm newAtm;
+        final Atm newAtm;
         try {
             newAtm = atmRepository.save(atmMapper.toEntity(atmDto));
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class AtmServiceImpl implements AtmService {
 
     @Override
     public AtmDto getAtmById(Long id) {
-        Atm atm = atmRepository.getReferenceById(id);
+        final Atm atm = atmRepository.getReferenceById(id);
         return atmMapper.toDto(atm);
     }
 

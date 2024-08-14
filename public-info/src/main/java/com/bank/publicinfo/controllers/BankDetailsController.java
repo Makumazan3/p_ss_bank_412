@@ -25,7 +25,7 @@ public class BankDetailsController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<BankDetailsDto> create(@RequestBody BankDetailsDto bankDetailsDto) {
-        BankDetailsDto dto = bankDetailsService.addBankDetails(bankDetailsDto);
+        final BankDetailsDto dto = bankDetailsService.addBankDetails(bankDetailsDto);
         return ResponseEntity.ok(dto);
     }
 

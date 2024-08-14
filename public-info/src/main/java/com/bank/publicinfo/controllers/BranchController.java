@@ -29,7 +29,7 @@ public class BranchController {
      */
     @PostMapping(value = "/create")
     public ResponseEntity<BranchDto> create(@RequestBody BranchDto branchDto) {
-        BranchDto dto = branchService.addBranch(branchDto);
+        final BranchDto dto = branchService.addBranch(branchDto);
         return ResponseEntity.ok(dto);
     }
 

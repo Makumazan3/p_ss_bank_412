@@ -25,7 +25,7 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     @Override
     @Transactional
     public BankDetailsDto addBankDetails(BankDetailsDto bankDetailsDto) {
-        BankDetails newBankDetails;
+        final BankDetails newBankDetails;
         try {
             newBankDetails = bankDetailsRepository.save(bankDetailsMapper.toEntity(bankDetailsDto));
         } catch (Exception e) {

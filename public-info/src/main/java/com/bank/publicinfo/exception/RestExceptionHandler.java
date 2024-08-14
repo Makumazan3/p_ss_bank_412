@@ -13,7 +13,7 @@ import javax.persistence.EntityNotFoundException;
 public class RestExceptionHandler {
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity handleNotFound() {
-        String error = "Entity is not found";
+        final String error = "Entity is not found";
         log.error(error);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }

@@ -23,7 +23,7 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public AuditDto addAudit(AuditDto auditDto) {
-        Audit newAudit;
+        final Audit newAudit;
         try {
             newAudit = auditRepository.save(auditMapper.toEntity(auditDto));
         } catch (Exception e) {
