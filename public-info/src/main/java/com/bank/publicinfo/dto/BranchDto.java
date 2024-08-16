@@ -13,5 +13,4 @@ public class BranchDto {
     private String city;
     private OffsetTime startOfWork;
     private OffsetTime endOfWork;
-
 }

@@ -16,5 +16,4 @@ public class AuditDto {
     private LocalDateTime modifiedAt;
     private String newEntityJson;
     private String entityJson;
-
 }

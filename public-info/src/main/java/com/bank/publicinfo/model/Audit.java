@@ -52,5 +52,4 @@ public class Audit {
 
     @Column(name = "entity_json")
     private String entityJson;
-
 }

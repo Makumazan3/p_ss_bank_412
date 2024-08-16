@@ -15,5 +15,4 @@ public interface LicenseService {
     void updateLicense(LicenseDto licenseDto);
 
     void deleteLicense(Long id);
-
 }

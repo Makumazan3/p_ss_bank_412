@@ -1,6 +1,5 @@
 package com.bank.publicinfo.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 
-
 @Entity
 @Getter
 @Setter
@@ -25,6 +23,7 @@ import javax.persistence.JoinColumn;
 @AllArgsConstructor
 @Table(name = "license", schema = "public_bank_information")
 public class License {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,5 +42,4 @@ public class License {
     @Column(name = "bank_details_id",
             nullable = false)
     private Long bankDetailsId;
-
 }

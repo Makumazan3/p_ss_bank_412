@@ -23,6 +23,13 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public AuditDto addAudit(AuditDto auditDto) {
+        if (auditDto.getEntityType() == null ||
+                auditDto.getOperationType() == null ||
+                auditDto.getCreatedBy() == null ||
+                auditDto.getEntityJson() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final Audit newAudit;
         try {
             newAudit = auditRepository.save(auditMapper.toEntity(auditDto));
@@ -40,19 +47,31 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public AuditDto getAuditById(Long id) {
-        return auditMapper.toDto(auditRepository.getReferenceById(id));
+        Audit audit = auditRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("Audit not found with id: " + id));
+        return auditMapper.toDto(audit);
     }
 
     @Override
     @Transactional
     public void updateAudit(AuditDto auditDto) {
+        if (auditDto.getEntityType() == null ||
+                auditDto.getOperationType() == null ||
+                auditDto.getCreatedBy() == null ||
+                auditDto.getEntityJson() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         auditRepository.save(auditMapper.toEntity(auditDto));
     }
 
     @Override
     @Transactional
     public void deleteAudit(Long id) {
+        if (!auditRepository.existsById(id)) {
+            throw new NullPointerException("Audit not found with id: " + id);
+        }
+
         auditRepository.deleteById(id);
     }
-
 }

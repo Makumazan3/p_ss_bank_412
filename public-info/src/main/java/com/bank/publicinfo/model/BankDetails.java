@@ -1,6 +1,5 @@
 package com.bank.publicinfo.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
-
 import java.util.List;
 
 @Entity
@@ -59,5 +57,4 @@ public class BankDetails {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     private List<Certificate> certificateList;
-
 }

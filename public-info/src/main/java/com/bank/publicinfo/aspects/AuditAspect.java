@@ -45,29 +45,22 @@ public class AuditAspect {
                 return;
             }
             log.debug("Start audit for operation: {}", operationType);
-
             final String entityJson = objectMapper.writeValueAsString(finishResult);
             log.debug("Serializable entity: {}", entityJson);
-
             final String entityType = finishResult.getClass().getSimpleName();
             log.debug("Entity type: {}", entityType);
-
             final String createdBy = "system";
             log.debug("Created by: {}", createdBy);
-
             final Audit auditEntity = new Audit();
             auditEntity.setEntityType(entityType);
             auditEntity.setOperationType(operationType);
             auditEntity.setCreatedBy(createdBy);
             auditEntity.setCreatedAt(LocalDateTime.now());
             auditEntity.setEntityJson(entityJson);
-
             auditRepository.save(auditEntity);
             log.info("The operation {} by entity: {} was successful!", operationType, entityType);
-
         } catch (Exception e) {
             log.error("Error audit operation for {}: {}", operationType, e.getMessage(), e);
         }
     }
-
 }

@@ -10,11 +10,9 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AuditMapper {
 
-
     AuditDto toDto(Audit audit);
 
     Audit toEntity(AuditDto auditDto);
 
     List<AuditDto> toDtoList(List<Audit> audits);
-
 }

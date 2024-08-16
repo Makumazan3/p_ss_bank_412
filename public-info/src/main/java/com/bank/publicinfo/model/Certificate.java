@@ -1,6 +1,5 @@
 package com.bank.publicinfo.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-
 
 @Entity
 @Getter
@@ -44,5 +42,4 @@ public class Certificate {
     @Column(name = "bank_details_id",
             nullable = false)
     private Long bankDetailsId;
-
 }

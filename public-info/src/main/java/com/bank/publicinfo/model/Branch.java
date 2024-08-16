@@ -1,6 +1,5 @@
 package com.bank.publicinfo.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,5 +48,4 @@ public class Branch {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Atm> atmList;
-
 }

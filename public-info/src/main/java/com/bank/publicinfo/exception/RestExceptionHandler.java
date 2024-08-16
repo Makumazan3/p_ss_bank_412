@@ -11,11 +11,11 @@ import javax.persistence.EntityNotFoundException;
 @Slf4j
 @RestControllerAdvice
 public class RestExceptionHandler {
+
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity handleNotFound() {
         final String error = "Entity is not found";
         log.error(error);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
-
 }

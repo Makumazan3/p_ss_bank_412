@@ -3,6 +3,7 @@ package com.bank.publicinfo.service.impl;
 import com.bank.publicinfo.dto.CertificateDto;
 import com.bank.publicinfo.mappers.CertificateMapper;
 import com.bank.publicinfo.model.Certificate;
+import com.bank.publicinfo.model.License;
 import com.bank.publicinfo.repositories.CertificateRepository;
 import com.bank.publicinfo.service.CertificateService;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,10 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto addCertificate(CertificateDto certificateDto) {
+        if (certificateDto.getPhoto() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final Certificate newCertificate;
         try {
             newCertificate = certificateRepository.save(certificateMapper.toEntity(certificateDto));
@@ -40,20 +45,27 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     public CertificateDto getCertificateById(Long id) {
-        final Certificate referenceById = certificateRepository.getReferenceById(id);
-        return certificateMapper.toDto(referenceById);
+        Certificate certificate = certificateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Certificate not found with id: " + id));
+        return certificateMapper.toDto(certificate);
     }
 
     @Override
     @Transactional
     public void updateCertificate(CertificateDto certificateDto) {
+        if (certificateDto.getPhoto() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         certificateRepository.save(certificateMapper.toEntity(certificateDto));
     }
 
     @Override
     @Transactional
     public void deleteCertificate(Long id) {
+        if (!certificateRepository.existsById(id)) {
+            throw new RuntimeException("Certificate not found with id: " + id);
+        }
         certificateRepository.deleteById(id);
     }
-
 }

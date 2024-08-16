@@ -15,7 +15,6 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-
 public class BranchServiceImpl implements BranchService {
 
     private final BranchRepository branchRepository;
@@ -24,6 +23,10 @@ public class BranchServiceImpl implements BranchService {
     @Override
     @Transactional
     public BranchDto addBranch(BranchDto branchDto) {
+        if (branchDto.getAddress() == null || branchDto.getCity() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final Branch newBranch;
         try {
             newBranch = branchRepository.save(branchMapper.toEntity(branchDto));
@@ -41,19 +44,26 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public BranchDto getBranchById(Long id) {
-        return branchMapper.toDto(branchRepository.getReferenceById(id));
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("Branch not found with id: " + id));
+        return branchMapper.toDto(branch);
     }
 
     @Override
     @Transactional
     public void updateBranch(BranchDto branchDto) {
+        if (branchDto.getAddress() == null || branchDto.getCity() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
         branchRepository.save(branchMapper.toEntity(branchDto));
     }
 
     @Override
     @Transactional
     public void deleteBranch(Long id) {
+        if (!branchRepository.existsById(id)) {
+            throw new NullPointerException("Branch not found with id: " + id);
+        }
         branchRepository.deleteById(id);
     }
-
 }

@@ -15,5 +15,4 @@ public interface BankDetailsMapper {
     BankDetails toEntity(BankDetailsDto bankDetailsDto);
 
     List<BankDetailsDto> toDtoList(List<BankDetails> bankDetailsList);
-
 }

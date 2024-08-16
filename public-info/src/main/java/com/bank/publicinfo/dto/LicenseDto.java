@@ -8,5 +8,4 @@ public class LicenseDto {
     private Long id;
     private byte[] photo;
     private Long bankDetailsId;
-
 }

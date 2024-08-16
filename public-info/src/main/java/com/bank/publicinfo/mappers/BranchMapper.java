@@ -15,5 +15,4 @@ public interface BranchMapper {
     Branch toEntity(BranchDto branchDto);
 
     List<BranchDto> toDtoList(List<Branch> branches);
-
 }

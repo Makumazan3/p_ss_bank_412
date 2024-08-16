@@ -1,4 +1,3 @@
-
 package com.bank.publicinfo.controllers;
 
 import com.bank.publicinfo.dto.CertificateDto;
@@ -51,5 +50,4 @@ public class CertificateController {
         certificateService.deleteCertificate(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

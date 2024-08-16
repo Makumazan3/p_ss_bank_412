@@ -2,7 +2,6 @@ package com.bank.publicinfo.dto;
 
 import lombok.Data;
 
-
 @Data
 public class BankDetailsDto {
 
@@ -14,5 +13,4 @@ public class BankDetailsDto {
     private String city;
     private String jointStockCompany;
     private String name;
-
 }

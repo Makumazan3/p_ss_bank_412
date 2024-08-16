@@ -15,5 +15,4 @@ public interface BankDetailsService {
     void updateBankDetails(BankDetailsDto bankDetailsDto);
 
     void deleteBankDetails(Long id);
-
 }

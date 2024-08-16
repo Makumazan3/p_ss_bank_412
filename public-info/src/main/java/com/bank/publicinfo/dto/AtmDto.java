@@ -13,5 +13,4 @@ public class AtmDto {
     private OffsetTime endOfWork;
     private boolean allHours;
     private Long branchId;
-
 }

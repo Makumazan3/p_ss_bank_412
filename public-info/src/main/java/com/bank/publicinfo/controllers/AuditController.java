@@ -82,5 +82,4 @@ public class AuditController {
         log.info("Audit by ID = {} was deleted successfully!", id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

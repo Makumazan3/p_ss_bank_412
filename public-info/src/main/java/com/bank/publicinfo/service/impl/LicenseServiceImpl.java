@@ -23,6 +23,10 @@ public class LicenseServiceImpl implements LicenseService {
     @Override
     @Transactional
     public LicenseDto addLicense(LicenseDto licenseDto) {
+        if (licenseDto.getPhoto() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final License newLicense;
         try {
             newLicense = licenseRepository.save(licenseMapper.toEntity(licenseDto));
@@ -40,19 +44,26 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     public LicenseDto getLicenseById(Long id) {
-        return licenseMapper.toDto(licenseRepository.getReferenceById(id));
+        License license = licenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("License not found with id: " + id));
+        return licenseMapper.toDto(license);
     }
 
     @Override
     @Transactional
     public void updateLicense(LicenseDto licenseDto) {
+        if (licenseDto.getPhoto() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
         licenseRepository.save(licenseMapper.toEntity(licenseDto));
     }
 
     @Override
     @Transactional
     public void deleteLicense(Long id) {
+        if (!licenseRepository.existsById(id)) {
+            throw new RuntimeException("License not found with id: " + id);
+        }
         licenseRepository.deleteById(id);
     }
-
 }

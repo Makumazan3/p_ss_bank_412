@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +42,6 @@ public class Atm {
     @Column(name = "end_of_work")
     private OffsetTime endOfWork;
 
-
     @Column(name = "all_hours")
     private boolean allHours;
 
@@ -57,5 +55,4 @@ public class Atm {
 
     @Column(name = "branch_id")
     private Long bankDetailsId;
-
 }

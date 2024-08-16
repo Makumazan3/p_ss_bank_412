@@ -15,5 +15,4 @@ public interface LicenseMapper {
     License toEntity(LicenseDto licenseDto);
 
     List<LicenseDto> toDtoList(List<License> lisenses);
-
 }

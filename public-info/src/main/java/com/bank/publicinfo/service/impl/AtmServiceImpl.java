@@ -23,6 +23,10 @@ public class AtmServiceImpl implements AtmService {
     @Override
     @Transactional
     public AtmDto addAtm(AtmDto atmDto) {
+        if (atmDto.getAddress() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final Atm newAtm;
         try {
             newAtm = atmRepository.save(atmMapper.toEntity(atmDto));
@@ -40,20 +44,26 @@ public class AtmServiceImpl implements AtmService {
 
     @Override
     public AtmDto getAtmById(Long id) {
-        final Atm atm = atmRepository.getReferenceById(id);
+        Atm atm = atmRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("Atm not found with id: " + id));
         return atmMapper.toDto(atm);
     }
 
     @Override
     @Transactional
     public void updateAtm(AtmDto atmDto) {
+        if (atmDto.getAddress() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
         atmRepository.save(atmMapper.toEntity(atmDto));
     }
 
     @Override
     @Transactional
     public void deleteAtm(Long id) {
+        if (!atmRepository.existsById(id)) {
+            throw new NullPointerException("Atm not found with id: " + id);
+        }
         atmRepository.deleteById(id);
     }
-
 }

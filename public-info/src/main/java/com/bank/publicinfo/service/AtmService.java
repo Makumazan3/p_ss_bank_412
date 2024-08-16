@@ -15,5 +15,4 @@ public interface AtmService {
     void updateAtm(AtmDto atmDto);
 
     void deleteAtm(Long id);
-
 }

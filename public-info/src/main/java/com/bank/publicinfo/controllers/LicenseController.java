@@ -50,5 +50,4 @@ public class LicenseController {
         licenseService.deleteLicense(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

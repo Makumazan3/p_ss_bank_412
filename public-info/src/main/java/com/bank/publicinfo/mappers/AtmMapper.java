@@ -14,5 +14,4 @@ public interface AtmMapper {
     Atm toEntity(AtmDto atmDto);
 
     List<AtmDto> toDtoList(List<Atm> atms);
-
 }

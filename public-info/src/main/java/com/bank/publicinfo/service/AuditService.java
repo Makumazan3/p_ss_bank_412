@@ -15,5 +15,4 @@ public interface AuditService {
     void updateAudit(AuditDto auditDto);
 
     void deleteAudit(Long id);
-
 }

@@ -21,10 +21,15 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     private final BankDetailsRepository bankDetailsRepository;
     private final BankDetailsMapper bankDetailsMapper;
 
-
     @Override
     @Transactional
     public BankDetailsDto addBankDetails(BankDetailsDto bankDetailsDto) {
+        if (bankDetailsDto.getCity() == null ||
+                bankDetailsDto.getJointStockCompany() == null ||
+                bankDetailsDto.getName() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         final BankDetails newBankDetails;
         try {
             newBankDetails = bankDetailsRepository.save(bankDetailsMapper.toEntity(bankDetailsDto));
@@ -42,19 +47,30 @@ public class BankDetailsServiceImpl implements BankDetailsService {
 
     @Override
     public BankDetailsDto getBankDetailsById(Long id) {
-        return bankDetailsMapper.toDto(bankDetailsRepository.getReferenceById(id));
+        BankDetails bankDetails = bankDetailsRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("BankDetails not found with id: " + id));
+        return bankDetailsMapper.toDto(bankDetails);
     }
 
     @Override
     @Transactional
     public void updateBankDetails(BankDetailsDto bankDetailsDto) {
+        if (bankDetailsDto.getCity() == null ||
+                bankDetailsDto.getJointStockCompany() == null ||
+                bankDetailsDto.getName() == null) {
+            throw new NullPointerException("This field can't be null!!");
+        }
+
         bankDetailsRepository.save(bankDetailsMapper.toEntity(bankDetailsDto));
     }
 
     @Override
     @Transactional
     public void deleteBankDetails(Long id) {
+        if (!bankDetailsRepository.existsById(id)) {
+            throw new NullPointerException("BankDetails not found with id: " + id);
+        }
+
         bankDetailsRepository.deleteById(id);
     }
-
 }

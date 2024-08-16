@@ -50,5 +50,4 @@ public class AtmController {
         atmService.deleteAtm(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
