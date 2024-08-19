@@ -3,7 +3,6 @@ package com.bank.publicinfo.service.impl;
 import com.bank.publicinfo.dto.CertificateDto;
 import com.bank.publicinfo.mappers.CertificateMapper;
 import com.bank.publicinfo.model.Certificate;
-import com.bank.publicinfo.model.License;
 import com.bank.publicinfo.repositories.CertificateRepository;
 import com.bank.publicinfo.service.CertificateService;
 import lombok.AllArgsConstructor;
@@ -52,12 +51,13 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Override
     @Transactional
-    public void updateCertificate(CertificateDto certificateDto) {
+    public CertificateDto updateCertificate(CertificateDto certificateDto) {
         if (certificateDto.getPhoto() == null) {
             throw new NullPointerException("This field can't be null!!");
         }
 
-        certificateRepository.save(certificateMapper.toEntity(certificateDto));
+        Certificate certificate = certificateRepository.save(certificateMapper.toEntity(certificateDto));
+        return certificateMapper.toDto(certificate);
     }
 
     @Override

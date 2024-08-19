@@ -51,11 +51,12 @@ public class AtmServiceImpl implements AtmService {
 
     @Override
     @Transactional
-    public void updateAtm(AtmDto atmDto) {
+    public AtmDto updateAtm(AtmDto atmDto) {
         if (atmDto.getAddress() == null) {
             throw new NullPointerException("This field can't be null!!");
         }
-        atmRepository.save(atmMapper.toEntity(atmDto));
+        Atm atm = atmRepository.save(atmMapper.toEntity(atmDto));
+        return atmMapper.toDto(atm);
     }
 
     @Override

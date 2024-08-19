@@ -54,7 +54,7 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     @Transactional
-    public void updateAudit(AuditDto auditDto) {
+    public AuditDto updateAudit(AuditDto auditDto) {
         if (auditDto.getEntityType() == null ||
                 auditDto.getOperationType() == null ||
                 auditDto.getCreatedBy() == null ||
@@ -62,7 +62,8 @@ public class AuditServiceImpl implements AuditService {
             throw new NullPointerException("This field can't be null!!");
         }
 
-        auditRepository.save(auditMapper.toEntity(auditDto));
+        Audit audit = auditRepository.save(auditMapper.toEntity(auditDto));
+        return auditMapper.toDto(audit);
     }
 
     @Override

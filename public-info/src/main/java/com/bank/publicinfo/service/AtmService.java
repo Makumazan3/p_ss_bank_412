@@ -12,7 +12,7 @@ public interface AtmService {
 
     AtmDto getAtmById(Long id);
 
-    void updateAtm(AtmDto atmDto);
+    AtmDto updateAtm(AtmDto atmDto);
 
     void deleteAtm(Long id);
 }

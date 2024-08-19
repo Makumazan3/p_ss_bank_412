@@ -12,7 +12,7 @@ public interface BranchService {
 
     BranchDto getBranchById(Long id);
 
-    void updateBranch(BranchDto branchDto);
+    BranchDto updateBranch(BranchDto branchDto);
 
     void deleteBranch(Long id);
 }

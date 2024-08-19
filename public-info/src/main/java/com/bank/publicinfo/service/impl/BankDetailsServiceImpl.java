@@ -54,14 +54,15 @@ public class BankDetailsServiceImpl implements BankDetailsService {
 
     @Override
     @Transactional
-    public void updateBankDetails(BankDetailsDto bankDetailsDto) {
+    public BankDetailsDto updateBankDetails(BankDetailsDto bankDetailsDto) {
         if (bankDetailsDto.getCity() == null ||
                 bankDetailsDto.getJointStockCompany() == null ||
                 bankDetailsDto.getName() == null) {
             throw new NullPointerException("This field can't be null!!");
         }
 
-        bankDetailsRepository.save(bankDetailsMapper.toEntity(bankDetailsDto));
+        BankDetails bankDetails = bankDetailsRepository.save(bankDetailsMapper.toEntity(bankDetailsDto));
+        return bankDetailsMapper.toDto(bankDetails);
     }
 
     @Override

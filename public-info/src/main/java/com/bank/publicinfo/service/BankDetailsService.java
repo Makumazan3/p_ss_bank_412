@@ -12,7 +12,7 @@ public interface BankDetailsService {
 
     BankDetailsDto getBankDetailsById(Long id);
 
-    void updateBankDetails(BankDetailsDto bankDetailsDto);
+    BankDetailsDto updateBankDetails(BankDetailsDto bankDetailsDto);
 
     void deleteBankDetails(Long id);
 }

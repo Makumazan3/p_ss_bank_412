@@ -12,7 +12,7 @@ public interface CertificateService {
 
     CertificateDto getCertificateById(Long id);
 
-    void updateCertificate(CertificateDto certificateDto);
+    CertificateDto updateCertificate(CertificateDto certificateDto);
 
     void deleteCertificate(Long id);
 }

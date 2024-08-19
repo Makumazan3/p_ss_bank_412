@@ -1,7 +1,8 @@
 package com.bank.publicinfo.controllers;
 
-import com.bank.publicinfo.dto.AuditDto;
-import com.bank.publicinfo.service.AuditService;
+import com.bank.publicinfo.dto.BranchDto;
+import com.bank.publicinfo.service.BranchService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,40 +19,40 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@WebMvcTest(AuditController.class)
-class AuditControllerTest {
+@WebMvcTest(BranchController.class)
+class BranchControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AuditService auditService;
+    private BranchService branchService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void create() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.addAudit(any(AuditDto.class))).thenReturn(auditDto);
+        BranchDto branchDto = new BranchDto();
+        Mockito.when(branchService.addBranch(any(BranchDto.class))).thenReturn(branchDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/audit/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/branch/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(branchDto)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(auditDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(branchDto)));
     }
 
     @Test
     void showAll() throws Exception {
-        List<AuditDto> auditList = Arrays.asList(new AuditDto(), new AuditDto());
-        Mockito.when(auditService.getAllAudit()).thenReturn(auditList);
+        List<BranchDto> branchDtoList = Arrays.asList(new BranchDto(), new BranchDto());
+        Mockito.when(branchService.getAllBranch()).thenReturn(branchDtoList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showAllAudit")
+        mockMvc.perform(MockMvcRequestBuilders.get("/branch/showAllBranch")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -60,33 +60,33 @@ class AuditControllerTest {
 
     @Test
     void getOne() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.getAuditById(anyLong())).thenReturn(auditDto);
+        BranchDto branchDto = new BranchDto();
+        Mockito.when(branchService.getBranchById(anyLong())).thenReturn(branchDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showOne/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.get("/branch/showOne/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(auditDto.getId())));
+                .andExpect(jsonPath("$.id", is(branchDto.getId())));
     }
 
     @Test
     void update() throws Exception {
-        AuditDto auditDto = new AuditDto();
+        BranchDto branchDto = new BranchDto();
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/audit/update")
+        mockMvc.perform(MockMvcRequestBuilders.put("/branch/update")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(branchDto)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(auditService).updateAudit(any(AuditDto.class));
+        Mockito.verify(branchService).updateBranch(any(BranchDto.class));
     }
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/audit/delete/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/branch/delete/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        Mockito.verify(auditService).deleteAudit(anyLong());
+        Mockito.verify(branchService).deleteBranch(anyLong());
     }
 }

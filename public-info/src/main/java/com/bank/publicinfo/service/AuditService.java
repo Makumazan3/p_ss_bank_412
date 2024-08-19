@@ -12,7 +12,7 @@ public interface AuditService {
 
     AuditDto getAuditById(Long id);
 
-    void updateAudit(AuditDto auditDto);
+    AuditDto updateAudit(AuditDto auditDto);
 
     void deleteAudit(Long id);
 }

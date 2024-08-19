@@ -12,7 +12,7 @@ public interface LicenseService {
 
     LicenseDto getLicenseById(Long id);
 
-    void updateLicense(LicenseDto licenseDto);
+    LicenseDto updateLicense(LicenseDto licenseDto);
 
     void deleteLicense(Long id);
 }

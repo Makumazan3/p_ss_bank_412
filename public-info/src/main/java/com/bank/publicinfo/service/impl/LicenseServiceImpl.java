@@ -51,11 +51,12 @@ public class LicenseServiceImpl implements LicenseService {
 
     @Override
     @Transactional
-    public void updateLicense(LicenseDto licenseDto) {
+    public LicenseDto updateLicense(LicenseDto licenseDto) {
         if (licenseDto.getPhoto() == null) {
             throw new NullPointerException("This field can't be null!!");
         }
-        licenseRepository.save(licenseMapper.toEntity(licenseDto));
+        License license = licenseRepository.save(licenseMapper.toEntity(licenseDto));
+        return licenseMapper.toDto(license);
     }
 
     @Override

@@ -1,40 +1,65 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.bank</groupId>
         <artifactId>parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
     <artifactId>publicInfo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>publicInfo</name>
     <description>publicInfo</description>
-
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
     <dependencies>
-        <!-- Spring Boot Starter Web -->
+        <!--  Spring Boot Starter Web  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Cloud Netflix Eureka Client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!--  Spring Cloud Netflix Eureka Client  -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- Other dependencies can be added here -->
-    </dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test-autoconfigure</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  Other dependencies can be added here  -->
+    </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -46,7 +71,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -67,7 +91,6 @@
                     <argLine>${surefireArgLine}</argLine>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -118,19 +141,12 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>com/bank/publicInfo/model/**</exclude>
-                        <exclude>com/bank/publicInfo/dto/**</exclude>
-                        <exclude>com/bank/publicInfo/mappers/**</exclude>
-                        <exclude>com/bank/publicInfo/exception/**</exclude>
+                        <exclude>com/bank/publicinfo/model/**</exclude>
+                        <exclude>com/bank/publicinfo/dto/**</exclude>
+                        <exclude>com/bank/publicinfo/mappers/**</exclude>
+                        <exclude>com/bank/publicinfo/exception/**</exclude>
                     </excludes>
                 </configuration>
-            </plugin><plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>9</source>
-                <target>9</target>
-            </configuration>
             </plugin>
         </plugins>
     </build>

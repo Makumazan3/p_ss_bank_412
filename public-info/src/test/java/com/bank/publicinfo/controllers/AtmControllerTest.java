@@ -1,7 +1,7 @@
 package com.bank.publicinfo.controllers;
 
-import com.bank.publicinfo.dto.AuditDto;
-import com.bank.publicinfo.service.AuditService;
+import com.bank.publicinfo.dto.AtmDto;
+import com.bank.publicinfo.service.AtmService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,36 +23,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@WebMvcTest(AuditController.class)
-class AuditControllerTest {
+@WebMvcTest(AtmController.class)
+class AtmControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AuditService auditService;
+    private AtmService atmService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void create() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.addAudit(any(AuditDto.class))).thenReturn(auditDto);
+        AtmDto atmDto = new AtmDto();
+        Mockito.when(atmService.addAtm(any(AtmDto.class))).thenReturn(atmDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/audit/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/atm/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(atmDto)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(auditDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(atmDto)));
     }
 
     @Test
     void showAll() throws Exception {
-        List<AuditDto> auditList = Arrays.asList(new AuditDto(), new AuditDto());
-        Mockito.when(auditService.getAllAudit()).thenReturn(auditList);
+        List<AtmDto> atmList = Arrays.asList(new AtmDto(), new AtmDto());
+        Mockito.when(atmService.getAllAtm()).thenReturn(atmList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showAllAudit")
+        mockMvc.perform(MockMvcRequestBuilders.get("/atm/showAllAtm")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -60,33 +60,33 @@ class AuditControllerTest {
 
     @Test
     void getOne() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.getAuditById(anyLong())).thenReturn(auditDto);
+        AtmDto atmDto = new AtmDto();
+        Mockito.when(atmService.getAtmById(anyLong())).thenReturn(atmDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showOne/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.get("/atm/showOne/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(auditDto.getId())));
+                .andExpect(jsonPath("$.id", is(atmDto.getId())));
     }
 
     @Test
     void update() throws Exception {
-        AuditDto auditDto = new AuditDto();
+        AtmDto atmDto = new AtmDto();
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/audit/update")
+        mockMvc.perform(MockMvcRequestBuilders.put("/atm/update")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(atmDto)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(auditService).updateAudit(any(AuditDto.class));
+        Mockito.verify(atmService).updateAtm(any(AtmDto.class));
     }
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/audit/delete/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/atm/delete/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        Mockito.verify(auditService).deleteAudit(anyLong());
+        Mockito.verify(atmService).deleteAtm(anyLong());
     }
 }

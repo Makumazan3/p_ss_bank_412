@@ -1,7 +1,8 @@
 package com.bank.publicinfo.controllers;
 
-import com.bank.publicinfo.dto.AuditDto;
-import com.bank.publicinfo.service.AuditService;
+import com.bank.publicinfo.dto.LicenseDto;
+import com.bank.publicinfo.service.LicenseService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,40 +19,40 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@WebMvcTest(AuditController.class)
-class AuditControllerTest {
+@WebMvcTest(LicenseController.class)
+class LicenseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AuditService auditService;
+    private LicenseService licenseService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void create() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.addAudit(any(AuditDto.class))).thenReturn(auditDto);
+        LicenseDto licenseDto = new LicenseDto();
+        Mockito.when(licenseService.addLicense(any(LicenseDto.class))).thenReturn(licenseDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/audit/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/license/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(licenseDto)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(auditDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(licenseDto)));
     }
 
     @Test
     void showAll() throws Exception {
-        List<AuditDto> auditList = Arrays.asList(new AuditDto(), new AuditDto());
-        Mockito.when(auditService.getAllAudit()).thenReturn(auditList);
+        List<LicenseDto> licenseList = Arrays.asList(new LicenseDto(), new LicenseDto());
+        Mockito.when(licenseService.getAllLicense()).thenReturn(licenseList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showAllAudit")
+        mockMvc.perform(MockMvcRequestBuilders.get("/license/showAllLicense")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -60,33 +60,33 @@ class AuditControllerTest {
 
     @Test
     void getOne() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.getAuditById(anyLong())).thenReturn(auditDto);
+        LicenseDto licenseDto = new LicenseDto();
+        Mockito.when(licenseService.getLicenseById(anyLong())).thenReturn(licenseDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showOne/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.get("/license/showOne/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(auditDto.getId())));
+                .andExpect(jsonPath("$.id", is(licenseDto.getId())));
     }
 
     @Test
     void update() throws Exception {
-        AuditDto auditDto = new AuditDto();
+        LicenseDto licenseDto = new LicenseDto();
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/audit/update")
+        mockMvc.perform(MockMvcRequestBuilders.put("/license/update")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(licenseDto)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(auditService).updateAudit(any(AuditDto.class));
+        Mockito.verify(licenseService).updateLicense(any(LicenseDto.class));
     }
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/audit/delete/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/license/delete/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        Mockito.verify(auditService).deleteAudit(anyLong());
+        Mockito.verify(licenseService).deleteLicense(anyLong());
     }
 }

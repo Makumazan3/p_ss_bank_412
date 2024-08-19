@@ -51,11 +51,12 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     @Transactional
-    public void updateBranch(BranchDto branchDto) {
+    public BranchDto updateBranch(BranchDto branchDto) {
         if (branchDto.getAddress() == null || branchDto.getCity() == null) {
             throw new NullPointerException("This field can't be null!!");
         }
-        branchRepository.save(branchMapper.toEntity(branchDto));
+        Branch branch = branchRepository.save(branchMapper.toEntity(branchDto));
+        return branchMapper.toDto(branch);
     }
 
     @Override

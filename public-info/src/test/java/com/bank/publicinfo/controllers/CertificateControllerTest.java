@@ -1,7 +1,7 @@
 package com.bank.publicinfo.controllers;
 
-import com.bank.publicinfo.dto.AuditDto;
-import com.bank.publicinfo.service.AuditService;
+import com.bank.publicinfo.dto.CertificateDto;
+import com.bank.publicinfo.service.CertificateService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,36 +23,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@WebMvcTest(AuditController.class)
-class AuditControllerTest {
+@WebMvcTest(CertificateController.class)
+class CertificateControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AuditService auditService;
+    private CertificateService certificateService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     void create() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.addAudit(any(AuditDto.class))).thenReturn(auditDto);
+        CertificateDto certificateDto = new CertificateDto();
+        Mockito.when(certificateService.addCertificate(any(CertificateDto.class))).thenReturn(certificateDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/audit/create")
+        mockMvc.perform(MockMvcRequestBuilders.post("/certificate/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(certificateDto)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(auditDto)));
+                .andExpect(content().json(objectMapper.writeValueAsString(certificateDto)));
     }
 
     @Test
     void showAll() throws Exception {
-        List<AuditDto> auditList = Arrays.asList(new AuditDto(), new AuditDto());
-        Mockito.when(auditService.getAllAudit()).thenReturn(auditList);
+        List<CertificateDto> certificateList = Arrays.asList(new CertificateDto(), new CertificateDto());
+        Mockito.when(certificateService.getAllCertificate()).thenReturn(certificateList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showAllAudit")
+        mockMvc.perform(MockMvcRequestBuilders.get("/certificate/showAllCertificate")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -60,33 +60,33 @@ class AuditControllerTest {
 
     @Test
     void getOne() throws Exception {
-        AuditDto auditDto = new AuditDto();
-        Mockito.when(auditService.getAuditById(anyLong())).thenReturn(auditDto);
+        CertificateDto certificateDto = new CertificateDto();
+        Mockito.when(certificateService.getCertificateById(anyLong())).thenReturn(certificateDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/audit/showOne/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.get("/certificate/showOne/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(auditDto.getId())));
+                .andExpect(jsonPath("$.id", is(certificateDto.getId())));
     }
 
     @Test
     void update() throws Exception {
-        AuditDto auditDto = new AuditDto();
+        CertificateDto certificateDto = new CertificateDto();
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/audit/update")
+        mockMvc.perform(MockMvcRequestBuilders.put("/certificate/update")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(auditDto)))
+                        .content(objectMapper.writeValueAsString(certificateDto)))
                 .andExpect(status().isOk());
 
-        Mockito.verify(auditService).updateAudit(any(AuditDto.class));
+        Mockito.verify(certificateService).updateCertificate(any(CertificateDto.class));
     }
 
     @Test
     void delete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/audit/delete/{id}", 1L)
+        mockMvc.perform(MockMvcRequestBuilders.delete("/certificate/delete/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        Mockito.verify(auditService).deleteAudit(anyLong());
+        Mockito.verify(certificateService).deleteCertificate(anyLong());
     }
 }
